@@ -1,6 +1,6 @@
 # Mejoras funcionales: control de inventario integrado con ventas
 
-**Estado (22 de noviembre de 2026):** el programa actualizado se confirmó en Devnet, Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`, slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)). Se reportó que Inventario V2 pudo inicializarse desde el frontend. Los flujos de productos, ventas V2, ajustes, devoluciones y baja aún deben completarse en pruebas manuales de Devnet.
+**Estado (25 de noviembre de 2026):** esta versión independiente se desplegó correctamente en Devnet con el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`, según el resultado de Solana Playground. El ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` y su transacción en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) documentan el programa anterior, no el nuevo despliegue. Los flujos de productos, ventas V2, ajustes, devoluciones y baja aún deben completarse en pruebas manuales de Devnet.
 
 ## 1. Objetivo
 

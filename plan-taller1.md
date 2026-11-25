@@ -10,20 +10,20 @@ El agente sera exclusivamente de lectura. No utilizara la clave privada de la
 autoridad, no enviara instrucciones on-chain, no transferira activos y no expone
 operaciones de escritura.
 
-Este plan parte de que `RegistroVentasTaller` sera un proyecto nuevo respecto al
-repositorio original `RegistroVentas`, aunque conserve su codigo. El despliegue
-debera tener un Program ID nuevo y un `declare_id!` nuevo.
+Este plan parte de que `RegistroVentasTaller` es un proyecto nuevo respecto al
+repositorio original `RegistroVentas`, aunque conserve su codigo. El backend ya
+se desplego con un Program ID propio y un `declare_id!` sincronizado; el agente
+de lectura descrito aqui todavia esta pendiente.
 
-## 2. Estado actual confirmado
+## 2. Estado al 25 de noviembre de 2026
 
-- `backend/src/lib.rs` conserva V1 y agrega Inventario V2.
-- El Program ID actual heredado es
-  `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`.
-- El estado actual no representa el despliegue definitivo del nuevo proyecto.
-- `frontend/clients/js/src/generated/` contiene lectores Codama V1 y V2.
+- `backend/src/lib.rs` conserva V1, agrega Inventario V2 y declara el nuevo
+  Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`.
+- El despliegue de este programa en Devnet fue reportado como exitoso por
+  Solana Playground.
+- `frontend/idl.json`, `frontend/src/config/programa.json` y el cliente Codama
+  generado están sincronizados con ese Program ID.
 - `frontend/src/solana/pdas.ts` deriva las PDAs existentes.
-- `frontend/idl.json`, el cliente generado y
-  `frontend/src/config/programa.json` siguen asociados al despliegue anterior.
 - La carpeta `agent/` ya contiene una copia adaptada del repositorio
   `WayLearn-Solana-Agent`. Todavia contiene plugins originales de Binance,
   Solana manager y Solana reader, por lo que no esta adaptada al alcance del

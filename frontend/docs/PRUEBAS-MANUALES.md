@@ -1,6 +1,6 @@
 # Pruebas manuales antes de clase
 
-Se realizan en Devnet, con una wallet de práctica. El upgrade del Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` se confirmó en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)); se reportó una inicialización exitosa del inventario. Los demás casos de esta lista deben ejecutarse y registrarse manualmente. Las pruebas unitarias no sustituyen las pruebas en Devnet.
+Se realizan en Devnet, con una wallet de práctica y el Program ID actual `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`. Solana Playground mostró que el despliegue de esta versión fue exitoso. La transacción del Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` se confirmó en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)); no corresponde al despliegue actual. Los casos de esta lista deben ejecutarse y registrarse manualmente. Las pruebas unitarias no sustituyen las pruebas en Devnet.
 
 ## Preparación
 

@@ -19,26 +19,30 @@ El repositorio original `RegistroVentas` y `RegistroVentasTaller` son proyectos
 distintos. El despliegue anterior y sus cuentas se conservaran intactos; no se
 actualizaran ni se reutilizaran como si fueran el despliegue de este repositorio.
 
-## 2. Estado inicial confirmado
+## 2. Estado inicial y resultado de ejecucion
 
-- El repositorio remoto nuevo es
+- Al iniciar este plan, el repositorio remoto nuevo era
   `https://github.com/mcabanillassalas/RegistroVentasTaller`.
-- El backend integrado que se debe desplegar esta en
-  `backend/src/lib.rs`.
-- Ese archivo actualmente declara el Program ID heredado
+- El backend integrado esta en `backend/src/lib.rs`. Antes del despliegue, ese
+  archivo declaraba el Program ID anterior
   `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`.
-- El frontend esta configurado para ese mismo ID en
-  `frontend/src/config/programa.json` y en su cliente Codama.
-- El frontend contiene V1, Inventario V2 y baja de clientes. El nuevo IDL
-  debe conservar el esquema que valida `frontend/scripts/contrato-idl.mjs`.
-- `frontend/scripts/configurar-idl.mjs` respalda el IDL anterior en
-  `.aula/respaldos/`, importa el nuevo y regenera el cliente.
+- El frontend contiene V1, Inventario V2 y baja de clientes. El IDL debe
+  conservar el esquema que valida `frontend/scripts/contrato-idl.mjs`.
 - El repositorio integrado no es necesariamente un proyecto standalone de
   Anchor compatible al importarlo desde su raiz. El README del backend advierte
   que Playground puede requerir importar el backend como subcarpeta o cargar
   sus fuentes por separado.
-- Los README y guias de despliegue aun contienen afirmaciones historicas sobre
-  el ID anterior. Se actualizaran cuando el despliegue nuevo este confirmado.
+
+Resultado de la ejecucion:
+
+- Se desplego en Devnet el Program ID nuevo
+  `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`; Solana Playground mostro
+  `Deployment successful`. La firma de esa transaccion no se registro en este
+  plan.
+- `backend/src/lib.rs`, el IDL local, la configuracion frontend y el cliente
+  Codama se sincronizaron con el nuevo Program ID.
+- La transaccion del ID anterior documentada en los README pertenece al
+  despliegue previo y no verifica el despliegue nuevo.
 
 ## 3. Resultado esperado
 

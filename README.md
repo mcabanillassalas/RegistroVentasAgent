@@ -1,4 +1,4 @@
-# RegistroVentas
+# RegistroVentasTaller
 
 Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los dos proyectos originales del bootcamp:
 
@@ -7,7 +7,7 @@ Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los 
 
 El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejecutan en Solana. El frontend se ejecuta en el navegador y se conecta al programa mediante un RPC.
 
-**Estado actual (22 de noviembre de 2026):** el programa está desplegado en **Solana Devnet** con el Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`. El upgrade de Inventario V2 se confirmó en el slot `525118972`; la [transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet) indica que actualizó ese mismo Program ID. Se reportó una inicialización exitosa de Inventario V2 desde el frontend. Las operaciones posteriores de catálogo, ventas, ajustes, devoluciones y baja todavía requieren completar pruebas manuales en Devnet.
+**Estado actual (25 de noviembre de 2026):** esta versión independiente está desplegada en **Solana Devnet** con el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`; Solana Playground mostró el resultado `Deployment successful`. La transacción del despliegue anterior, Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`, corresponde al programa previo y no a este despliegue nuevo. Las operaciones de catálogo, ventas, ajustes, devoluciones y baja todavía requieren completar pruebas manuales en Devnet.
 
 ## Antes y después de las mejoras
 
@@ -18,7 +18,7 @@ El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejec
 ## Estructura
 
 ```text
-RegistroVentas/
+RegistroVentasTaller/
 ├── backend/   # Programa Anchor y cliente de Solana Playground
 ├── frontend/  # Aplicación React/Vite, IDL y cliente TypeScript
 ├── .gitignore

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::system_program;
 
-declare_id!("4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3");
+declare_id!("sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k");
 
 const MAX_PRODUCTOS: usize = 20;
 const MAX_VENTAS_V2: usize = 10;

@@ -2,7 +2,7 @@
 
 ![banner](./images/banner.jpg)
 
-> **Esta guía pertenece al proyecto backend original del bootcamp.** En este monorepo, el código actualizado está en [`backend/src/lib.rs`](./src/lib.rs): conserva las instrucciones V1 e incorpora Inventario V2 y la baja de clientes. El programa de esta versión ya está desplegado en Devnet con el Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`. Para publicar cambios futuros, no importes y despliegues sin más el repositorio original enlazado abajo: primero asegúrate de que el repositorio importado contiene la versión actualizada. Consulta el [flujograma de despliegue del proyecto integrado](../flujograma.md) y el [README general](../README.md).
+> **Esta guía pertenece al proyecto backend original del bootcamp.** En este monorepo, el código actualizado está en [`backend/src/lib.rs`](./src/lib.rs): conserva las instrucciones V1 e incorpora Inventario V2 y la baja de clientes. Esta versión independiente se desplegó en Devnet con el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`. El ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` pertenece al programa previo. Para publicar cambios futuros, no importes y despliegues sin más el repositorio original enlazado abajo: primero asegúrate de que el repositorio importado contiene la versión actualizada. Consulta el [flujograma de despliegue del proyecto integrado](../flujograma.md) y el [README general](../README.md).
 
 CRUD básico de un Solana Program desarrollado con Rust y Anchor desde el Solana Playground. 
 
