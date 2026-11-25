@@ -1,0 +1,864 @@
+{
+  "version": "0.1.0",
+  "name": "registro",
+  "instructions": [
+    {
+      "name": "crearRegistro",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nombreNegocio",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "crearCliente",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nombre",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "eliminarCliente",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "historialV2",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "registrarVenta",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "descripcion",
+          "type": "string"
+        },
+        {
+          "name": "monto",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "hacerDevolucion",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "cambiarMonto",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "nuevoMonto",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "inicializarInventario",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inventario",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "inicializarHistorialVentasV2",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "historial",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "crearProducto",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inventario",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "descripcion",
+          "type": "string"
+        },
+        {
+          "name": "precioUnitario",
+          "type": "u32"
+        },
+        {
+          "name": "stockInicial",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "reabastecerProducto",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "cantidad",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "actualizarProducto",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "descripcion",
+          "type": "string"
+        },
+        {
+          "name": "precioUnitario",
+          "type": "u32"
+        },
+        {
+          "name": "activo",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "registrarVentaInventario",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inventario",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "historial",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "idVenta",
+          "type": "u32"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "cantidad",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "ajustarCantidadVenta",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inventario",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "historial",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idVenta",
+          "type": "u32"
+        },
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "nuevaCantidad",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "devolverVentaInventario",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "registro",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cliente",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "inventario",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "producto",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "historial",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "venta",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idVenta",
+          "type": "u32"
+        },
+        {
+          "name": "idCliente",
+          "type": "u16"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Registro",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "nombreNegocio",
+            "type": "string"
+          },
+          {
+            "name": "clientes",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "idCounter",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cliente",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "idCliente",
+            "type": "u16"
+          },
+          {
+            "name": "nombre",
+            "type": "string"
+          },
+          {
+            "name": "compras",
+            "type": "u16"
+          },
+          {
+            "name": "historial",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Venta",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "sku",
+            "type": "string"
+          },
+          {
+            "name": "descripcion",
+            "type": "string"
+          },
+          {
+            "name": "monto",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Inventario",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "registro",
+            "type": "publicKey"
+          },
+          {
+            "name": "productos",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "siguienteIdVenta",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Producto",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "registro",
+            "type": "publicKey"
+          },
+          {
+            "name": "sku",
+            "type": "string"
+          },
+          {
+            "name": "descripcion",
+            "type": "string"
+          },
+          {
+            "name": "precioUnitario",
+            "type": "u32"
+          },
+          {
+            "name": "stock",
+            "type": "u32"
+          },
+          {
+            "name": "activo",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HistorialVentasV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cliente",
+            "type": "publicKey"
+          },
+          {
+            "name": "ventas",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "VentaInventario",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "idVenta",
+            "type": "u32"
+          },
+          {
+            "name": "idCliente",
+            "type": "u16"
+          },
+          {
+            "name": "cliente",
+            "type": "publicKey"
+          },
+          {
+            "name": "producto",
+            "type": "publicKey"
+          },
+          {
+            "name": "sku",
+            "type": "string"
+          },
+          {
+            "name": "descripcion",
+            "type": "string"
+          },
+          {
+            "name": "cantidad",
+            "type": "u32"
+          },
+          {
+            "name": "precioUnitario",
+            "type": "u32"
+          },
+          {
+            "name": "total",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NoOwner",
+      "msg": "Error, no eres el owner del registro"
+    },
+    {
+      "code": 6001,
+      "name": "NoSKU",
+      "msg": "Error, la venta no esta en el historial del cliente"
+    },
+    {
+      "code": 6002,
+      "name": "SkuInvalido",
+      "msg": "El SKU debe tener entre 1 y 5 bytes UTF-8"
+    },
+    {
+      "code": 6003,
+      "name": "DescripcionInvalida",
+      "msg": "La descripcion debe tener entre 1 y 50 bytes UTF-8"
+    },
+    {
+      "code": 6004,
+      "name": "PrecioInvalido",
+      "msg": "El precio debe ser mayor que cero"
+    },
+    {
+      "code": 6005,
+      "name": "CantidadInvalida",
+      "msg": "La cantidad debe ser mayor que cero"
+    },
+    {
+      "code": 6006,
+      "name": "InventarioInvalido",
+      "msg": "El inventario pertenece a otro registro"
+    },
+    {
+      "code": 6007,
+      "name": "ProductoInvalido",
+      "msg": "El producto no corresponde al registro o SKU"
+    },
+    {
+      "code": 6008,
+      "name": "ProductoInactivo",
+      "msg": "El producto esta inactivo"
+    },
+    {
+      "code": 6009,
+      "name": "StockInsuficiente",
+      "msg": "No hay existencias suficientes"
+    },
+    {
+      "code": 6010,
+      "name": "LimiteProductos",
+      "msg": "Se alcanzo el limite de productos del inventario"
+    },
+    {
+      "code": 6011,
+      "name": "LimiteVentas",
+      "msg": "Se alcanzo el limite de ventas activas del cliente"
+    },
+    {
+      "code": 6012,
+      "name": "HistorialInvalido",
+      "msg": "El historial no corresponde al cliente"
+    },
+    {
+      "code": 6013,
+      "name": "VentaInvalida",
+      "msg": "La venta no corresponde al cliente, producto o identificador"
+    },
+    {
+      "code": 6014,
+      "name": "IdVentaDesactualizado",
+      "msg": "El identificador de venta quedo desactualizado; vuelve a consultar"
+    },
+    {
+      "code": 6015,
+      "name": "OverflowIdVenta",
+      "msg": "Se agotaron los identificadores de venta"
+    },
+    {
+      "code": 6016,
+      "name": "OverflowTotal",
+      "msg": "El total excede el rango soportado"
+    },
+    {
+      "code": 6017,
+      "name": "OverflowStock",
+      "msg": "El stock excede el rango soportado"
+    },
+    {
+      "code": 6018,
+      "name": "ClienteConVentas",
+      "msg": "No se puede dar de baja un cliente con ventas activas"
+    },
+    {
+      "code": 6019,
+      "name": "ClienteNoRegistrado",
+      "msg": "El cliente no aparece en el registro"
+    }
+  ],
+  "metadata": {
+    "address": "4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3"
+  }
+}
