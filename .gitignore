@@ -1,0 +1,20 @@
+# Dependencias y salidas generadas
+**/node_modules/
+**/dist/
+**/target/
+**/*.tsbuildinfo
+**/.aula/
+
+# Configuración local y secretos
+**/.env
+**/.env.*
+!**/.env.example
+**/*-keypair.json
+**/id.json
+**/*-upgrade-buffer.json
+
+# Validadores locales y temporales
+**/local-ledger/
+**/test-ledger/
+**/tmp-idl/
+**/*.log
