@@ -1,9 +1,13 @@
-# Plan inicial: nuevo despliegue Devnet de RegistroVentasTaller
+# Plan inicial: nuevo despliegue Devnet de RegistroVentasAgent
+
+Este documento conserva las instrucciones del despliegue inicial de
+`RegistroVentasAgent`. El repositorio local y el repositorio remoto usan ese
+nombre.
 
 ## 1. Proposito y orden
 
 Este plan establece la identidad y el despliegue on-chain propios del
-repositorio nuevo `RegistroVentasTaller`, antes de implementar
+repositorio nuevo `RegistroVentasAgent`, antes de implementar
 [plan-taller1.md](./plan-taller1.md).
 
 Orden de trabajo:
@@ -15,14 +19,14 @@ Orden de trabajo:
 3. Solo entonces comenzar [plan-taller1.md](./plan-taller1.md) y conectar el
    agente al registro nuevo.
 
-El repositorio original `RegistroVentas` y `RegistroVentasTaller` son proyectos
+El repositorio original `RegistroVentas` y `RegistroVentasAgent` son proyectos
 distintos. El despliegue anterior y sus cuentas se conservaran intactos; no se
 actualizaran ni se reutilizaran como si fueran el despliegue de este repositorio.
 
 ## 2. Estado inicial y resultado de ejecucion
 
-- Al iniciar este plan, el repositorio remoto nuevo era
-  `https://github.com/mcabanillassalas/RegistroVentasTaller`.
+- El repositorio remoto nuevo es
+  `https://github.com/mcabanillassalas/RegistroVentasAgent`.
 - El backend integrado esta en `backend/src/lib.rs`. Antes del despliegue, ese
   archivo declaraba el Program ID anterior
   `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`.
@@ -36,9 +40,9 @@ actualizaran ni se reutilizaran como si fueran el despliegue de este repositorio
 Resultado de la ejecucion:
 
 - Se desplego en Devnet el Program ID nuevo
-  `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`; Solana Playground mostro
-  `Deployment successful`. La firma de esa transaccion no se registro en este
-  plan.
+  `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`. La transaccion de despliegue
+  se confirmo en el slot `526256835`
+  ([transaccion](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)).
 - `backend/src/lib.rs`, el IDL local, la configuracion frontend y el cliente
   Codama se sincronizaron con el nuevo Program ID.
 - La transaccion del ID anterior documentada en los README pertenece al
@@ -93,7 +97,7 @@ Reglas de seguridad:
 
 ## 5. Fase 0: preparar la copia publicada
 
-Desde la raiz local de `RegistroVentasTaller`:
+Desde la raiz local de `RegistroVentasAgent`:
 
 1. Confirmar que el repositorio local apunta al repositorio GitHub nuevo:
 
@@ -101,7 +105,7 @@ Desde la raiz local de `RegistroVentasTaller`:
    git remote -v
    ```
 
-   Se espera `https://github.com/mcabanillassalas/RegistroVentasTaller.git`.
+   Se espera `https://github.com/mcabanillassalas/RegistroVentasAgent.git`.
 
 2. Confirmar que se trabaja directamente en `main` y guardar los cambios
    existentes antes de continuar:
@@ -141,7 +145,7 @@ Antes de crear una identidad:
 
 El README de `backend/` documenta el flujo de Playground y advierte que el
 monorepo no debe tratarse como el repositorio backend standalone original.
-Importar `RegistroVentasTaller` desde su raiz no garantiza que Playground
+Importar `RegistroVentasAgent` desde su raiz no garantiza que Playground
 cargue el archivo correcto. Se debe importar la subcarpeta backend si el flujo
 de Playground la soporta, o cargar/copiar las fuentes del backend segun el
 flujo soportado por Playground y verificar el contenido despues de importarlo.
@@ -156,7 +160,7 @@ versiones de Anchor al azar ni desplegar una copia incompleta.
 2. Importar o cargar el backend de este repositorio, no el codigo del programa
    original.
 3. Guardar una copia de trabajo en Playground con un nombre que identifique
-   `RegistroVentasTaller`.
+   `RegistroVentasAgent`.
 4. Crear una identidad/program keypair nueva para un **programa nuevo**.
    No usar la identidad del programa original ni un keypair compartido.
 5. Registrar el Program ID publico que corresponde a esa identidad.
@@ -192,7 +196,7 @@ texto muestre una direccion.
    git add backend/src/lib.rs
    git diff --cached --check
    git diff --cached
-   git commit -m "Configura nuevo Program ID para RegistroVentasTaller"
+   git commit -m "Configura nuevo Program ID para RegistroVentasAgent"
    git push origin main
    ```
 
@@ -253,7 +257,7 @@ el archivo temporal original si contiene artefactos ajenos o datos locales.
 Desde PowerShell, en la carpeta `frontend`:
 
 ```powershell
-Set-Location D:\DevWayLearn\ProyectoTaller\RegistroVentasTaller\frontend
+Set-Location D:\DevWayLearn\ProyectoTaller1\RegistroVentasAgent\frontend
 npm run configurar:idl -- .\tmp-idl\registro.json
 ```
 
@@ -382,7 +386,7 @@ Antes de integrar el agente:
    git add backend/src/lib.rs frontend/idl.json frontend/clients/js frontend/src/config/programa.json
    git diff --cached --check
    git status --short
-   git commit -m "Despliega RegistroVentasTaller con nuevo Program ID"
+   git commit -m "Despliega RegistroVentasAgent con nuevo Program ID"
    git push
    ```
 
@@ -401,7 +405,7 @@ Antes de integrar el agente:
   `programa.json` coinciden.
 - La fuente desplegada es la version actual de `backend/src/lib.rs`.
 - Las cuentas del proyecto original permanecen intactas.
-- Se creo un registro nuevo para `RegistroVentasTaller`.
+- Se creo un registro nuevo para `RegistroVentasAgent`.
 - `npm run comprobar:idl` y `npm run verificar` terminan correctamente.
 - El repositorio no contiene llaves ni artefactos temporales.
 - La documentacion diferencia el despliegue nuevo del historico.

@@ -1,4 +1,8 @@
-# RegistroVentasTaller
+# RegistroVentasAgent
+
+Este repositorio corresponde al Taller 1 y se llama `RegistroVentasAgent`.
+El remoto `origin` apunta a
+`https://github.com/mcabanillassalas/RegistroVentasAgent.git`.
 
 Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los dos proyectos originales del bootcamp:
 
@@ -7,7 +11,7 @@ Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los 
 
 El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejecutan en Solana. El frontend se ejecuta en el navegador y se conecta al programa mediante un RPC.
 
-**Estado actual (25 de noviembre de 2026):** esta versión independiente está desplegada en **Solana Devnet** con el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`; Solana Playground mostró el resultado `Deployment successful`. La transacción del despliegue anterior, Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`, corresponde al programa previo y no a este despliegue nuevo. Las operaciones de catálogo, ventas, ajustes, devoluciones y baja todavía requieren completar pruebas manuales en Devnet.
+**Estado actual (26 de noviembre de 2026):** el programa está desplegado en **Solana Devnet** con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`; la transacción de despliegue se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del despliegue anterior, Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`, corresponde al programa previo y no a este despliegue nuevo. El agente del Taller 1 fue validado contra el registro Devnet y Groq. Las operaciones de inventario V2 aún requieren completar pruebas manuales en Devnet.
 
 ## Antes y después de las mejoras
 
@@ -18,13 +22,17 @@ El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejec
 ## Estructura
 
 ```text
-RegistroVentasTaller/
+RegistroVentasAgent/
 ├── backend/   # Programa Anchor y cliente de Solana Playground
 ├── frontend/  # Aplicación React/Vite, IDL y cliente TypeScript
+├── agent/     # Agente de consulta Devnet, solo lectura (Taller 1)
 ├── .gitignore
 ├── mejoras-funcionales.md # Diseño y límites de las mejoras funcionales
 ├── flujograma.md # Pasos de despliegue del backend y conexión del frontend
+├── plan-inicial.md # Historial y despliegue del proyecto
+├── plan-taller1.md # Integración del agente del Taller 1
 ├── README.md
+├── CHANGELOG.md # Historial de cambios del proyecto
 └── evidencia/ # carpeta de capturas de evidencia
 ```
 
@@ -77,6 +85,8 @@ Consulta las instrucciones específicas de cada parte:
 - [Backend: importación y uso con Solana Playground](./backend/README.md)
 - [Frontend: instalación, desarrollo y configuración del IDL](./frontend/README.md)
 - [Guía de pruebas del frontend en Devnet](./frontend/docs/PRUEBAS-MANUALES.md)
+- [Agente: instalación, configuración y consultas de solo lectura](./agent/README.md)
+- [Historial de cambios](./CHANGELOG.md)
 
 ## Flujo general
 
@@ -91,13 +101,38 @@ El despliegue no se repite al cerrar o reiniciar el frontend. Para cambios futur
 Para desarrollo local del frontend, abre PowerShell:
 
 ```powershell
-cd D:\DevWayLearn\proyecto-final\RegistroVentas\frontend
+cd D:\DevWayLearn\ProyectoTaller1\RegistroVentasAgent\frontend
 npm ci
 npm run verificar
 npm run dev
 ```
 
 Abre `http://localhost:5173`. La configuración predeterminada usa el RPC público de Devnet. Consulta [frontend/README.md](./frontend/README.md) para importar el IDL y los detalles de configuración.
+
+## Agente de consulta (Taller 1)
+
+El agente, ubicado en `agent/`, consulta el registro V1, sus clientes y las
+ventas activas en Devnet. No realiza escrituras ni consultas de Inventario V2.
+Para instalarlo y configurarlo, sigue [agent/README.md](./agent/README.md).
+En resumen, desde PowerShell:
+
+```powershell
+cd agent
+npm install
+Copy-Item .env.example .env.taller1
+# Completa .env.taller1 con NEGOCIO, OWNER y la configuración del modelo
+npm run typecheck
+npm test
+npm run prueba
+npm start
+```
+
+La prueba directa requiere un registro ya creado en el despliegue nuevo y
+valores exactos de `NEGOCIO` y `OWNER`. El agente carga solo `.env.taller1`;
+no carga el `.env` heredado ni requiere una clave privada. `LLM_MODE=online`
+permite elegir OpenAI o Groq con `LLM_PROVIDER`; `LLM_MODE=local` usa LM Studio.
+En modo en línea las consultas y los resultados de lectura se envían al
+proveedor elegido.
 
 El backend está preparado para Solana Playground. `backend/src/lib.rs` conserva las instrucciones V1 y contiene la implementación V2. `backend/Cargo.toml` permite ejecutar pruebas locales, pero este directorio no es un workspace Anchor completo. El archivo `backend/tests/anchor.test.ts` sigue siendo una plantilla de clase que invoca `initialize`, instrucción que no pertenece a RegistroVentas; no lo uses como prueba de las operaciones V2.
 
@@ -106,6 +141,7 @@ El README del backend importa el repositorio original independiente del programa
 ## Entorno requerido
 
 - Node.js `>=22.12.0 <25` y npm para el frontend.
+- Node.js `>=22.12.0` y npm para el agente.
 - Wallet de navegador compatible con Solana y SOL de prueba en Devnet para enviar transacciones.
 - Solana Playground y una wallet de prueba en Devnet para compilar y desplegar el programa.
 
@@ -118,28 +154,12 @@ No es necesario dejar un validador local de WSL ejecutándose para utilizar el d
 - No subas `node_modules`, `dist`, `target`, ledgers de validadores locales ni archivos temporales de desarrollo; están excluidos por `.gitignore`.
 - Esta es una base educativa para Devnet, no una aplicación auditada para producción.
 
-## Publicar este monorepo en GitHub
+## Publicar cambios en GitHub
 
-1. En GitHub, crea un repositorio vacío para el proyecto. Para evitar conflictos al primer `push`, no inicialices el remoto con README, `.gitignore` ni licencia.
-2. Desde PowerShell, ejecuta en la raíz `D:\DevWayLearn\proyecto-final\RegistroVentas`:
-
-   ```powershell
-   git init -b main
-   git add README.md mejoras-funcionales.md flujograma.md .gitignore backend frontend
-   git status --short
-   git diff --cached --stat
-   ```
-
-3. Revisa el estado y confirma que no se prepararon claves, wallets, archivos `.env.local`, `node_modules`, `dist` ni `target`. Si todo está correcto:
-
-   ```powershell
-   git commit -m "Initial RegistroVentas project"
-   git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   git push -u origin main
-   ```
-
-   Reemplaza la URL por la del repositorio vacío que creaste. GitHub autenticará el `push` mediante el navegador o Git Credential Manager; no pongas tokens en el comando ni en archivos del proyecto.
-
-4. Abre la página del repositorio en GitHub y comprueba que aparecen `backend/`, `frontend/`, el README y los archivos de configuración versionados.
-
-Si Git informa que `user.name` o `user.email` no están configurados, configúralos en tu equipo antes del `commit`.
+El repositorio ya tiene configurado `origin` con
+`https://github.com/mcabanillassalas/RegistroVentasAgent.git`. Comprueba la URL
+con `git remote -v`. Para publicar cambios desde la raíz
+`D:\DevWayLearn\ProyectoTaller1\RegistroVentasAgent`, revisa `git status`,
+prepara solo los archivos del cambio, inspecciona el diff y luego crea y publica
+el commit con `git push`. No agregues `.env`, `.env.taller1`, claves, wallets ni
+archivos temporales.

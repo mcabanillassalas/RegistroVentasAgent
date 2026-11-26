@@ -1,165 +1,104 @@
-# WayLearn Solana Agent
+# Agente de consulta de RegistroVentasAgent
 
-Agente adaptado para su intracción con la blockchain de Solana y mercados cripto para consultar precios mediante binance desde la terminal. Este proyecto esta construido sobre [solana-agent-kit v2](https://github.com/sendaifun/solana-agent-kit/tree/v2) de SendAI. 
+Agente de terminal de solo lectura para consultar en Solana Devnet el registro
+configurado, sus clientes y sus ventas activas V1. La herramienta disponible es
+`REGISTRO_RESUMEN_NEGOCIO`. No consulta Inventario V2 ni representa ventas
+históricas o transferencias monetarias.
 
-## Capacidades 🧠
+## Requisitos
 
-### 🪙 Tokens SPL (Token-2022)
-- Crear tokens con metadata embebida (nombre, símbolo, URI)
-- Acuñar tokens a cualquier ATA
-- Transferir tokens entre wallets (crea la ATA destino automáticamente)
-- Quemar tokens
-- Congelar y descongelar token accounts
-- Cambiar o revocar autoridades (mint, freeze, owner, close)
-- Aprobar y revocar delegados
-- Cerrar token accounts y recuperar SOL de renta
+- Node.js `>=22.12.0` y npm.
+- Un registro V1 creado en Devnet desde el frontend de este proyecto.
+- Para modo en línea: una API key de OpenAI o de Groq y un modelo compatible
+  con llamadas a herramientas.
+- Para modo local: LM Studio, un modelo compatible cargado y su servidor
+  compatible con OpenAI activo.
 
-### 🖼️ NFTs (Metaplex Core)
-- Crear NFTs individuales (assets) con metadata JSON
-- Crear colecciones NFT
-- Transferir NFTs a otras wallets
-- Quemar NFTs
-- Actualizar nombre y/o URI de metadata
-- Agregar royalties a NFTs (en basis points)
-- Agregar atributos on-chain a NFTs
+## Instalación y configuración
 
-### 📊 Mercados (Binance)
-- Consultar precio en tiempo real de cualquier par (SOLUSDT, BTCUSDT, ETHUSDT, etc.)
-- Obtener estadísticas de 24 horas (precio, cambio porcentual, volumen, máximo y mínimo)
-- Obtener historial de velas (candlesticks) con intervalos configurables (1m, 5m, 15m, 1h, 4h, 1d)
+Desde PowerShell, en la carpeta `agent/`:
 
-### 🔍 Explorador de Solana (RPC)
-- Consultar balance SOL de cualquier wallet
-- Listar tokens SPL de una wallet con cantidades y precio en USD (vía Jupiter)
-- Ver NFTs de una wallet con metadata completa (nombre, imagen, atributos, colección)
-- Obtener resumen completo de cualquier cuenta (balance + tokens + transacciones recientes)
-- Consultar detalles completos de una transacción (estado, fee, cambios de balance, instrucciones, logs)
-- Ver historial de transacciones de cualquier wallet
-- Obtener información de cualquier token por mint address (supply, precio, market cap, top holders)
-
-### 🗂️ Registros locales
-- Registro persistente de tokens SPL creados (mint address, ATA, nombre, símbolo, decimales)
-- Registro persistente de NFTs y colecciones creados (asset address, nombre, URI, colección)
-- Listar tokens y NFTs creados en sesiones anteriores
-- Eliminar entradas del registro manualmente
-- Eliminación automática del registro cuando se quema un token con supply = 0 o un NFT
-
-
-## Requisitos 📜
-
-- [Node.js](https://nodejs.org/) v18 o superior
-- [pnpm](https://pnpm.io/)
-- Wallet de Solana con SOL (devnet o mainnet)
-- [LM Studio](https://lmstudio.ai/) con un modelo compatible con function calling (recomendado: Qwen2.5 7B Instruct o superior)
-
-
-## Instalación 🏗️
-
-### 1. Instalar Node.js
-
-Descarga e instala Node.js desde con: 
-
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install node
-nvm use node
+```powershell
+npm install
+Copy-Item .env.example .env.taller1
 ```
 
-Verifica la instalación:
-
-```bash
-node --version
-```
-
-### 2. Instalar pnpm
-
-```bash
-npm install -g pnpm
-```
-
-### 3. Clonar el repositorio e instalar dependencias
-
-```bash
-git clone https://github.com/WayLearnLatam/WayLearn-Solana-Agent.git
-cd WayLearn-Solana-Agent
-pnpm install
-```
-
-
-## Configuración 🛠️
-
-### 1. Variables de entorno
-
-Adapta el `.env` en la raíz del proyecto:
+Edita `.env.taller1` con los datos públicos del registro. La configuración de
+ejemplo selecciona OpenAI en línea:
 
 ```env
-SOLANA_PRIVATE_KEY=[12,34,56,...]   # Tu keypair como array de bytes
+NEGOCIO=Nombre exacto del registro
+OWNER=Direccion publica que creo el registro
 RPC_URL=https://api.devnet.solana.com
-LMSTUDIO_MODEL=qwen2.5-7b-instruct  # Nombre exacto del modelo en LM Studio
-OPENAI_API_KEY=lm-studio            # Requerido por LangChain, cualquier valor sirve
+
+LLM_MODE=online
+LLM_PROVIDER=openai
+OPENAI_API_KEY=tu-api-key-de-openai
+OPENAI_MODEL=gpt-4o-mini
 ```
 
-### 4. LM Studio
+`NEGOCIO` debe coincidir exactamente con el nombre guardado on-chain y `OWNER`
+es la dirección pública de la autoridad del registro, no el Program ID. El
+agente carga exclusivamente `.env.taller1`; no carga el `.env` heredado que
+pudiera existir en esta carpeta. No se necesita ni se utiliza
+`SOLANA_PRIVATE_KEY`.
 
+`LLM_MODE` selecciona `online` o `local`. En modo en línea, `LLM_PROVIDER`
+selecciona OpenAI o Groq. Para usar Groq, cambia la configuración online por:
 
-1. Descarga LM Studio en el siguiente enlace 👉 [LM Studio](https://lmstudio.ai/).
-> ℹ️ Se recomienda descargar la version de CLI sin GUI
-2. Una vez descargado usa los siguientes comandos para descargar y utilizar un modelo (recomendado: Qwen2.5 7B Instruct Q4):
-```bash
-lms # muestra todos los comandos disponibles 
-lms get # despliega la lista de modelos para descargar
-lms load <ModelName> --gpu max --context-length 120000 # carga el modelo localmente 
-lms server start # inicia el servidor local en el puerto 1234
-lms log stream # ver los logs de las peticiones (OPCIONAL)
-```
-3. Al terminar tu sesion, ejecuta:
-
-```bash
-lms server stop # para detener el servidor
-lms unload # descarga el modelo de la grafica (libera recursos)
+```env
+LLM_MODE=online
+LLM_PROVIDER=groq
+GROQ_API_KEY=tu-api-key-de-groq
+GROQ_MODEL=openai/gpt-oss-120b
 ```
 
-> ⚠️ Recuerda que el nombre del modelo debe coincidir al de el .env
+Puedes crear la clave de Groq en [Groq Console](https://console.groq.com/keys).
+El modelo predeterminado es `openai/gpt-oss-120b`, compatible con tool calling.
+El modelo anterior `llama-3.3-70b-versatile` fue retirado para cuentas
+Developer de Groq el 16 de agosto de 2026.
+Para cambiar al modo local con LM Studio, reemplaza la configuración del modelo
+por:
 
-## Inicializar el Agente 🤖
-
-En la carpeta raiz del proyecto ejecuta:
-```bash
-pnpm start
+```env
+LLM_MODE=local
+LLM_BASE_URL=http://localhost:1234/v1
+LLM_MODEL=identificador-exacto-del-modelo-cargado
+LLM_API_KEY=lm-studio
 ```
 
-El agente iniciará en modo conversacional en la terminal. Escribe `exit` para salir.
+Las claves `OPENAI_API_KEY` y `GROQ_API_KEY` son secretas; guárdalas solo en
+`.env.taller1` y no las agregues a Git. En modo online, el contenido de las
+consultas y los resultados de la herramienta se envían al proveedor
+seleccionado. Revisa sus límites y condiciones de uso; el acceso a la API de
+OpenAI se configura por separado del inicio de sesión de ChatGPT. En modo
+local, el endpoint es LM Studio y no se envía el contenido a OpenAI ni a Groq.
 
-### Ejemplos de peticiones 
+## Verificación y ejecución
 
-**Mercados**
-* ¿Cuál es el precio actual de SOL?
-* Dame las estadísticas de BTCUSDT de las últimas 24 horas
-* Muéstrame las últimas 5 velas de 1 hora de ETHUSDT
+```powershell
+npm run typecheck
+npm test
+npm run prueba
+npm start
+```
 
-**Explorador**
-* ¿Cuál es mi saldo?
-* Dame el overview de esta wallet: 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM
-* Muéstrame el historial de mis últimas 10 transacciones
-* Detalles de esta transacción: 5UfgJ...
+`npm run prueba` realiza una consulta directa sin modelo y requiere que exista
+el registro en Devnet y que `NEGOCIO` y `OWNER` sean correctos. `npm start`
+inicia la conversación; escribe `exit` para salir. Ejemplos:
 
-**Tokens SPL**
-* Crea un token con nombre "Mi Token", símbolo MTK y URI https://...
-* Muéstrame mis tokens creados
-* Transfiere 100 MTK a la wallet 9WzDX...
+- ¿Cuántos clientes tiene mi negocio?
+- ¿Cuántas ventas V1 activas hay y cuánto suman?
+- ¿Qué cliente tiene más compras?
+- ¿Cuál es la dirección del registro?
 
-**NFTs**
-* Crea un NFT con nombre "Mi NFT #1" y URI https://...
-* Crea una colección llamada "Mi Colección" con URI https://...
-* Muéstrame mis NFTs creados
-* Transfiere el NFT 7xPq... a la wallet 9mKr...
+## Alcance y seguridad
 
-## ⚠️ Notas importantes ⚠️
-
-- El agente opera sobre **devnet por defecto**. Para mainnet cambia `RPC_URL` en el `.env`.
-- Las operaciones de escritura (crear tokens, NFTs, transferir) consumen SOL real en mainnet.
-- En devnet puedes obtener SOL de prueba con `solana airdrop 2 <tu-wallet> --url devnet`.
-- Los modelos locales pequeños (7B) pueden tener dificultades con function calling complejo. Se recomienda usar modelos de 14B o superior para mayor confiabilidad.
-- El context length mínimo requerido depende de cuántos plugins estén activos — con todos los plugins activos se recomienda `32768` o superior.
+- Verifica que el RPC sea Devnet y que el programa configurado esté desplegado.
+- Lee el registro, las cuentas de clientes y las ventas V1 activas.
+- Calcula los totales en TypeScript; un empate se informa sin elegir un ganador
+  único y, sin ventas activas, no se declara un mejor cliente.
+- Genera una wallet efímera en memoria para inicializar `SolanaAgentKit`; no
+  firma transacciones ni envía instrucciones.
+- No tiene plugins activos para trading, transferencias, tokens o NFTs.
+- `.env.taller1`, `.env` y las dependencias instaladas están excluidos de Git.

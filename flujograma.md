@@ -2,7 +2,7 @@
 
 Esta guía describe cómo desplegar en **Devnet** el backend actualizado de RegistroVentas y conectar el frontend al mismo programa. Incluye Inventario V2 y la instrucción `eliminar_cliente`.
 
-> **Estado (25 de noviembre de 2026):** esta versión independiente se desplegó correctamente en Devnet con el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`; Solana Playground mostró `Deployment successful`. La transacción del 22 de noviembre para el Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) es solo el antecedente del programa previo. Esta guía describe el flujo para futuros despliegues y actualizaciones.
+> **Estado (25 de noviembre de 2026):** esta versión independiente se desplegó correctamente en Devnet con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`; la transacción de despliegue se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del 22 de noviembre para el Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) es solo el antecedente del programa previo. Esta guía describe el flujo para futuros despliegues y actualizaciones.
 
 ## Diagrama de decisiones
 
@@ -33,7 +33,7 @@ flowchart TD
    - `backend/src/lib.rs` conserva V1, agrega Inventario V2 e incluye `eliminar_cliente`.
    - No uses una copia antigua del programa por error.
 2. Compara el Program ID definido por el código local con el programa que quieres actualizar:
-   - El código actual declara `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`.
+   - El código actual declara `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`.
    - El frontend local también está configurado con ese Program ID en `frontend/src/config/programa.json`.
    - Confirma en Solana Explorer/Playground que ese es el programa de **Devnet** que pretendes actualizar. No asumas que una coincidencia local demuestra que el programa ya tiene el código nuevo.
 3. Identifica la **autoridad de actualización** del programa. La wallet que registra ventas desde el frontend puede ser distinta de la wallet que tiene permiso para actualizar el programa.
@@ -47,10 +47,10 @@ flowchart TD
 
 ## 2. Publicar el backend actualizado en GitHub
 
-Para el flujo basado en GitHub, este paso va **antes** de importar el proyecto en Solana Playground. Playground importa una copia del repositorio; no ejecuta ni sincroniza automáticamente los archivos locales de `RegistroVentas/`.
+Para el flujo basado en GitHub, este paso va **antes** de importar el proyecto en Solana Playground. Playground importa una copia del repositorio; no ejecuta ni sincroniza automáticamente los archivos locales de `RegistroVentasAgent/`.
 
 1. Identifica el repositorio remoto que vas a importar. Debe ser un proyecto standalone de Anchor compatible con Playground, con los archivos del programa en la raíz esperada por la plataforma.
-2. El monorepo `RegistroVentas/` no debe importarse desde su raíz como si fuera ese proyecto standalone. Además, el enlace del README de `backend/` apunta al repositorio original de clase: **no contiene automáticamente** los cambios locales.
+2. El monorepo `RegistroVentasAgent/` no debe importarse desde su raíz como si fuera ese proyecto standalone. Además, el enlace del README de `backend/` apunta al repositorio original de clase: **no contiene automáticamente** los cambios locales.
 3. En tu repositorio/fork standalone del backend, actualiza el archivo de programa (`src/lib.rs`) con el contenido actual de `backend/src/lib.rs`. Conserva los archivos de configuración requeridos por ese proyecto; no reemplaces su configuración de Anchor sin necesidad.
 4. Antes de publicar, confirma que el código contiene las instrucciones de Inventario V2 y `eliminar_cliente`. Si actualizas, `declare_id!` debe conservar el Program ID existente; si elegiste otro ID, configúralo en el código antes de publicarlo.
 5. Publica esos cambios en GitHub (commit y push). No publiques wallets, keypairs, frases de recuperación ni claves privadas.
@@ -62,7 +62,7 @@ Para el flujo basado en GitHub, este paso va **antes** de importar el proyecto e
 
 1. Abre [Solana Playground](https://beta.solpg.io/).
 2. Importa la URL de tu repositorio standalone actualizado, no el monorepo completo ni la versión original sin tus cambios. La URL de importación sigue el formato 
-`https://beta.solpg.io/https://github.com/mcabanillassalas/RegistroVentas/tree/main/backend`
+`https://beta.solpg.io/https://github.com/mcabanillassalas/RegistroVentasAgent/tree/main/backend`
 
 3. Guarda el proyecto importado con un nombre que identifique la versión. No sobrescribas la única copia del proyecto anterior.
 4. Comprueba en el editor que `src/lib.rs` es el contenido recién publicado y que incluye `eliminar_cliente` y las instrucciones de Inventario V2.
@@ -107,7 +107,7 @@ Para el flujo basado en GitHub, este paso va **antes** de importar el proyecto e
 Abre PowerShell en la carpeta del frontend:
 
 ```powershell
-cd D:\DevWayLearn\proyecto-final\RegistroVentas\frontend
+cd D:\DevWayLearn\ProyectoTaller1\RegistroVentasAgent\frontend
 ```
 
 Si el servidor de desarrollo ya está ejecutándose, detenlo con `Ctrl+C` antes de importar el IDL; vuelve a iniciarlo después de regenerar el cliente.
@@ -127,7 +127,7 @@ npm run configurar:idl -- .\tmp-idl\registro.json
 Si el IDL no contiene una dirección, indícala explícitamente. Sustituye el ejemplo por el Program ID que efectivamente desplegaste:
 
 ```powershell
-npm run configurar:idl -- .\tmp-idl\registro.json --program-id sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k
+npm run configurar:idl -- .\tmp-idl\registro.json --program-id sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k
 ```
 
 El script respalda el IDL local anterior en `frontend/.aula/respaldos/`, valida el contrato y genera el cliente. Comprueba que:

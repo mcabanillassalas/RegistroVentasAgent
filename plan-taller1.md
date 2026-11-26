@@ -1,8 +1,8 @@
-# Plan: integracion del Taller 1 en RegistroVentasTaller
+# Plan: integracion del Taller 1 en RegistroVentasAgent
 
 ## 1. Objetivo
 
-Crear la nueva version de `RegistroVentasTaller` con un agente de terminal llamado
+Crear la nueva version de `RegistroVentasAgent` con un agente de terminal llamado
 `REGISTRO_RESUMEN_NEGOCIO`, capaz de consultar en Solana Devnet el estado activo
 del registro, sus clientes y sus ventas V1.
 
@@ -10,24 +10,31 @@ El agente sera exclusivamente de lectura. No utilizara la clave privada de la
 autoridad, no enviara instrucciones on-chain, no transferira activos y no expone
 operaciones de escritura.
 
-Este plan parte de que `RegistroVentasTaller` es un proyecto nuevo respecto al
-repositorio original `RegistroVentas`, aunque conserve su codigo. El backend ya
-se desplego con un Program ID propio y un `declare_id!` sincronizado; el agente
-de lectura descrito aqui todavia esta pendiente.
+Este plan describe la integracion del Taller 1 en `RegistroVentasAgent`, separada
+del repositorio original `RegistroVentas`. El backend tiene su propio Program
+ID y un `declare_id!` sincronizado; el agente de solo lectura ya esta
+implementado y su consulta en Devnet y llamada a la herramienta con Groq fueron
+validadas.
 
-## 2. Estado al 25 de noviembre de 2026
+## 2. Estado al 26 de noviembre de 2026
 
 - `backend/src/lib.rs` conserva V1, agrega Inventario V2 y declara el nuevo
-  Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`.
-- El despliegue de este programa en Devnet fue reportado como exitoso por
-  Solana Playground.
+  Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`.
+- El despliegue de este programa en Devnet fue confirmado en la transacción
+  `3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH`
+  ([Explorer](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)).
 - `frontend/idl.json`, `frontend/src/config/programa.json` y el cliente Codama
   generado están sincronizados con ese Program ID.
 - `frontend/src/solana/pdas.ts` deriva las PDAs existentes.
-- La carpeta `agent/` ya contiene una copia adaptada del repositorio
-  `WayLearn-Solana-Agent`. Todavia contiene plugins originales de Binance,
-  Solana manager y Solana reader, por lo que no esta adaptada al alcance del
-  Taller 1.
+- `agent/` ya esta adaptado al alcance del Taller 1: se retiraron los plugins
+  heredados de Binance, tokens, NFTs y exploracion general, y se implemento la
+  consulta de solo lectura de cuentas V1.
+- El agente tiene configuracion separada en `.env.taller1`; el `.env` heredado
+  se conserva intacto, se ignora en Git y no se carga.
+- `npm run typecheck` y `npm test` pasan. La lectura directa en Devnet encontró
+  `Cafe WayLearn D1`, un cliente y una venta V1 activa por 50 unidades.
+- El modelo Groq `openai/gpt-oss-120b` respondió correctamente a una consulta y
+  usó la herramienta `REGISTRO_RESUMEN_NEGOCIO`.
 
 ## 3. Alcance de esta fase
 
@@ -38,8 +45,9 @@ de lectura descrito aqui todavia esta pendiente.
 - Limpiar `agent/` para conservar solo la integracion de consulta.
 - Agregar una tool que consulte `Registro -> Cliente -> Venta` por Devnet.
 - Agregar una action `REGISTRO_RESUMEN_NEGOCIO`.
-- Configurar las variables `NEGOCIO`, `OWNER`, `RPC_URL` y las variables del
-  modelo local.
+- Configurar las variables `NEGOCIO`, `OWNER`, `RPC_URL` y seleccionar mediante
+  `LLM_MODE` entre local (LM Studio) y online; en modo online elegir OpenAI o
+  Groq con `LLM_PROVIDER`.
 - Verificar la lectura directa sin IA.
 - Comparar la respuesta del modelo contra el JSON real.
 - Documentar instalacion, ejecucion, prueba y evidencias.
@@ -118,12 +126,18 @@ del contrato requiere regenerar el IDL y el cliente.
 - `NEGOCIO`: nombre exacto del registro, incluyendo mayusculas y espacios.
 - `OWNER`: wallet publica usada por el despliegue nuevo al crear el registro.
 - `RPC_URL`: endpoint Devnet accesible desde el proceso Node.
-- `LLM_BASE_URL`: URL del proveedor compatible con Chat Completions.
-- `LLM_MODEL`: identificador exacto del modelo cargado.
-- `LLM_API_KEY`: credencial no secreta para LM Studio o secreto externo para
-  una API remota.
+- `LLM_MODE`: `local` para LM Studio o `online` para un proveedor remoto.
+- `LLM_PROVIDER`: `openai` o `groq` cuando `LLM_MODE=online`; si se omite, se
+  usa OpenAI.
+- En modo `local`: `LLM_BASE_URL`, `LLM_MODEL` y `LLM_API_KEY`.
+- En modo `online` con OpenAI: `OPENAI_API_KEY` y opcionalmente `OPENAI_MODEL`
+  (por defecto, `gpt-4o-mini`).
+- En modo `online` con Groq: `GROQ_API_KEY` y opcionalmente `GROQ_MODEL` (por
+  defecto, `openai/gpt-oss-120b`, compatible con tool calling).
 
-`LLM_API_KEY` nunca debe aparecer en archivos versionados ni en capturas.
+Las claves `OPENAI_API_KEY`, `GROQ_API_KEY` y `LLM_API_KEY` nunca deben aparecer
+en archivos versionados ni en capturas. En modo online, las consultas y los
+datos devueltos por la tool se envian al proveedor seleccionado.
 
 ### 5.3 Datos que devuelve la tool
 
@@ -147,11 +161,12 @@ Se conservara la carpeta ya integrada y se eliminara del flujo activo todo
 plugin que no pertenezca al Taller 1:
 
 ```text
-RegistroVentasTaller/
+RegistroVentasAgent/
 ├── backend/
 ├── frontend/
 ├── agent/
 │   ├── .env.example
+│   ├── .env.taller1 (local, ignorado)
 │   ├── .gitignore
 │   ├── package.json
 │   ├── tsconfig.json
@@ -169,19 +184,22 @@ RegistroVentasTaller/
 └── README.md
 ```
 
-La carpeta `.env` real de `agent/` quedara ignorada por Git.
+El archivo `.env` heredado no se modifica ni se carga. La configuracion de este
+taller se guarda en `.env.taller1`, ignorado por Git.
 
 ## 7. Implementacion por fases
 
 ### Fase A: limpieza y configuracion independiente
 
-1. Revisar y proteger `agent/.env` actual.
-2. No conservar claves privadas ni credenciales heredadas.
+1. Proteger `agent/.env` actual sin leerlo, copiarlo ni modificarlo.
+2. No cargar claves privadas ni credenciales heredadas desde ese archivo.
 3. Eliminar del `agent.ts` activo Binance, Solana manager y demas plugins.
 4. Crear `agent/.env.example` sin secretos.
-5. Crear `agent/.gitignore` con `node_modules/` y `.env`.
+5. Crear `agent/.gitignore` con `node_modules/`, `.env` y `.env.taller1`.
 6. Configurar un paquete Node independiente con ESM y `tsx`.
 7. Mantener dependencias de LangChain, Solana kit, web3.js, dotenv y zod.
+8. Cargar solo `.env.taller1` para evitar importar variables del `.env`
+   heredado.
 
 ### Fase B: crear el plugin de Registro de Ventas
 
@@ -223,7 +241,8 @@ No se deben leer `Inventario`, `Producto`, `HistorialVentasV2` ni
 2. No leer ni solicitar `SOLANA_PRIVATE_KEY`.
 3. Inicializar `SolanaAgentKit` con el RPC Devnet.
 4. Registrar solamente `RegistroVentasPlugin`.
-5. Configurar el modelo desde `LLM_BASE_URL` y `LLM_MODEL`.
+5. Configurar `ChatOpenAI` desde `LLM_MODE` y `LLM_PROVIDER`, validando LM
+   Studio local y las API en linea de OpenAI y Groq.
 6. Crear el agente ReAct con una herramienta y MemorySaver.
 7. Indicar al modelo que debe llamar la tool y no inventar datos.
 8. Preservar el comportamiento de empates y cero ventas.
@@ -255,8 +274,9 @@ de la cuenta.
 Dentro de `agent/`:
 
 1. `npm install`
-2. `npx tsc -p .`
-3. `npx tsx src/prueba.ts`
+2. `npm run typecheck`
+3. `npm test`
+4. `npm run prueba` (requiere `.env.taller1` y un registro creado en Devnet)
 
 La prueba directa debe devolver:
 
@@ -300,7 +320,7 @@ Se debe verificar que:
 2. Nombre de negocio inexistente.
 3. Autoridad incorrecta.
 4. RPC inaccesible.
-5. Modelo cargado sin soporte real de tool calling.
+5. Modelo seleccionado sin soporte real de tool calling (local o OpenAI).
 6. Cambio de monto V1 desde el frontend y nueva consulta directa.
 7. Devolucion V1 en el frontend y comprobacion de que la venta deja de contar.
 
@@ -317,7 +337,8 @@ Conservar, sin secretos:
 - captura del IDL o cliente verificando el nuevo Program ID
 - resultado del caso sin registro
 - resultado de una devolucion o cambio de monto si se realiza
-- captura de LM Studio mostrando el modelo cargado
+- evidencia del modelo cargado en LM Studio o de la seleccion de OpenAI/Groq, sin
+  mostrar claves ni datos de autenticacion
 - capturas de terminal de `tsc`, prueba directa y agente
 
 No conservar en Git ni adjuntar en las evidencias:
@@ -339,7 +360,7 @@ Actualizar:
 - `mejoras-funcionales.md` solo si se documenta una mejora adicional real.
 - `.gitignore` para excluir `.env`, node_modules, dist, target y temporales.
 
-Registrar explicitamente que `RegistroVentasTaller` usa un nuevo Program ID y
+Registrar explicitamente que `RegistroVentasAgent` usa un nuevo Program ID y
 que no espera compartir cuentas con `RegistroVentas`.
 
 ## 12. Criterios de aceptacion
@@ -347,12 +368,17 @@ que no espera compartir cuentas con `RegistroVentas`.
 - Existe un despliegue Devnet nuevo con un Program ID distinto del original.
 - `declare_id!`, IDL, Codama y `programa.json` usan el mismo Program ID.
 - `agent/` ya no activa plugins de trading o escritura.
-- `npx tsc -p .` pasa desde `agent/`.
-- La prueba directa obtiene datos reales del nuevo registro.
+- `npm run typecheck` y `npm test` pasan desde `agent/`.
+- La prueba directa obtiene los datos reales del registro Devnet configurado en
+  `.env.taller1`.
 - La action aparece como `REGISTRO_RESUMEN_NEGOCIO`.
 - El modelo usa la tool en lugar de inventar datos.
 - Los totales coinciden con clientes y ventas V1 activos.
 - El caso sin registro comunica inexistencia sin inventar resultados.
 - El repositorio no incluye secretos ni variables reales.
 - README y evidencias permiten reproducir la integracion.
+
+Estado de ejecución (26 de noviembre de 2026): la lectura directa y la llamada
+del agente a Groq se completaron correctamente con el registro Devnet del
+usuario. La configuración privada permanece local y no se documenta aquí.
 

@@ -1,115 +1,115 @@
-import * as dotenv from "dotenv";
-import * as readline from "readline";
-import { Keypair } from "@solana/web3.js";
-import TokenPlugin from "@solana-agent-kit/plugin-token";
-import NFTPlugin from "@solana-agent-kit/plugin-nft";
-import DefiPlugin from "@solana-agent-kit/plugin-defi";
-import MiscPlugin from "@solana-agent-kit/plugin-misc";
-import BlinksPlugin from "@solana-agent-kit/plugin-blinks";
-import { ChatOpenAI } from "@langchain/openai";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import * as readline from "node:readline";
 import { HumanMessage } from "@langchain/core/messages";
+import { tool } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
-import { SolanaAgentKit, createLangchainTools, KeypairWallet } from "solana-agent-kit";
-import BinancePlugin from "./plugins/binance";
-import SolanaReaderPlugin from "./plugins/solana-reader";
-import SolanaManagerPlugin from "./plugins/solana-manager";
+import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { ChatOpenAI } from "@langchain/openai";
+import { Keypair } from "@solana/web3.js";
+import { KeypairWallet, SolanaAgentKit } from "solana-agent-kit";
+import { z } from "zod";
+import {
+  cargarVariablesTaller1,
+  cargarConfiguracionModelo,
+  cargarConfiguracionRegistro,
+} from "./configuracion.ts";
+import RegistroVentasPlugin from "./plugins/registro-ventas/index.ts";
+import { getResumenNegocio } from "./plugins/registro-ventas/tools/resumenNegocio.ts";
 
-dotenv.config();
+const SYSTEM_PROMPT = `Eres un asistente en español para consultar el registro de ventas del proyecto RegistroVentasAgent.
+Usa siempre REGISTRO_RESUMEN_NEGOCIO para responder preguntas sobre el estado del negocio; no inventes ni calcules datos por tu cuenta.
+La acción lee solo clientes y ventas V1 activas. No representa facturación histórica y no incluye Inventario V2.
+Si el registro no existe o la herramienta devuelve un error, explícalo claramente.
+Si hay empate en mejor_cliente, menciona a todos los clientes empatados. Si no hay ventas activas, indica que no hay un mejor cliente.
+No solicites ni utilices claves privadas, no firmes transacciones y no realices operaciones de escritura.`;
 
-// 1. LLM apuntando a LMStudio
-const llm = new ChatOpenAI({
-  modelName: process.env.LMSTUDIO_MODEL || "local-model",
-  configuration: {
-    baseURL: "http://localhost:1234/v1",
-    apiKey: "lm-studio",
-  },
-  temperature: 0,
-  maxRetries: 2,
-});
-
-// 2. Wallet de Solana
-const keypair = Keypair.fromSecretKey(
-  Uint8Array.from(JSON.parse(process.env.SOLANA_PRIVATE_KEY!)));
-const wallet = new KeypairWallet(keypair, process.env.RPC_URL!);
-const MY_ADRS = keypair.publicKey.toBase58();
-
-// 3. SolanaAgentKit con plugins
-const solanaAgent = new SolanaAgentKit(wallet, process.env.RPC_URL!, {})
-  // .use(TokenPlugin)
-  .use(BinancePlugin) 
-  .use(SolanaReaderPlugin) 
-  .use(SolanaManagerPlugin)
-  // .use(NFTPlugin)
-  // .use(DefiPlugin)
-  // .use(MiscPlugin)
-  // .use(BlinksPlugin);
-
-// 4. Herramientas para LangChain
-const tools = createLangchainTools(solanaAgent, solanaAgent.actions);
-
-// 5. Memoria de conversación
-const memory = new MemorySaver();
-console.log("Actions registradas:", solanaAgent.actions.map(a => a.name));
-console.log("Tools para LangChain:", tools.map((t: any) => t.name));
-// 6. Agente ReAct
-const agent = createReactAgent({
-  llm,
-  tools: tools as any,
-  checkpointSaver: memory,
-   messageModifier: `Eres un asistente experto en Solana y trading de criptomonedas.
-    Tienes acceso a herramientas reales para consultar datos de Binance y operar en Solana.
-    SIEMPRE usa las herramientas disponibles cuando el usuario pregunte sobre precios o datos de mercado.
-    Nunca inventes precios ni datos, siempre usa las tools para obtener información en tiempo real.
-
-    El wallet/cuenta del usuario con el que estás operando es: ${MY_ADRS}
-    Cuando el usuario diga "mi wallet", "mi cuenta", "mi saldo", "mis tokens" o cualquier referencia 
-    en primera persona, usa SIEMPRE este address como wallet_address.
-
-    REGLA CRÍTICA: Cuando el usuario proporcione una dirección de wallet en su mensaje actual,
-    SIEMPRE usa ESA dirección específica como wallet_address, ignorando cualquier dirección
-    mencionada en mensajes anteriores de la conversación. El mensaje más reciente del usuario
-    tiene PRIORIDAD ABSOLUTA sobre el historial.
-    
-    REGLA IMPORTANTE: Cuando el usuario proporcione una URI o URL para metadata de NFT,
-    úsala EXACTAMENTE como la proporcionó sin intentar validarla, modificarla ni verificar
-    si es accesible. Pásala directamente al tool NFT_CREATE_ASSET como parámetro uri.`,
-});
-
-async function chat() {
-  const rl = readline.createInterface({
+async function main() {
+  cargarVariablesTaller1();
+  const configuracionRegistro = cargarConfiguracionRegistro();
+  const configuracionModelo = cargarConfiguracionModelo();
+  const wallet = new KeypairWallet(
+    Keypair.generate(),
+    configuracionRegistro.rpcUrl,
+  );
+  const solanaAgent = new SolanaAgentKit(
+    wallet,
+    configuracionRegistro.rpcUrl,
+    {},
+  ).use(RegistroVentasPlugin);
+  const tools = [
+    tool(
+      async () =>
+        JSON.stringify(await getResumenNegocio(solanaAgent, configuracionRegistro)),
+      {
+        name: "REGISTRO_RESUMEN_NEGOCIO",
+        description:
+          "Consulta en Devnet el resumen de clientes y ventas V1 activas del negocio configurado. No escribe ni incluye Inventario V2.",
+        schema: z.object({}),
+      },
+    ),
+  ];
+  const model = new ChatOpenAI({
+    model: configuracionModelo.model,
+    apiKey: configuracionModelo.apiKey,
+    configuration: { baseURL: configuracionModelo.baseUrl },
+    temperature: 0,
+  });
+  const agent = createReactAgent({
+    llm: model,
+    tools,
+    checkpointSaver: new MemorySaver(),
+    messageModifier: SYSTEM_PROMPT,
+  });
+  const readlineInterface = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  console.log("🤖 Solana Agent listo. Escribe 'exit' para salir.\n");
+  console.log("Agente RegistroVentasAgent listo. Escribe 'exit' para salir.");
+  console.log(
+    `Proveedor LLM: ${
+      configuracionModelo.provider === "local"
+        ? "local"
+        : configuracionModelo.provider === "groq"
+          ? "Groq"
+          : "OpenAI"
+    }.`,
+  );
+  console.log(
+    "Acción disponible:",
+    solanaAgent.actions.map((action) => action.name).join(", "),
+  );
 
-  const threadId = "session-1";
-
-  const askQuestion = () => {
-    rl.question(">>>> 👉 Tú: ", async (input) => {
-      if (input.toLowerCase() === "exit") {
-        rl.close();
-        return;
-      }
+  try {
+    for await (const input of readlineInterface) {
+      if (input.trim().toLowerCase() === "exit") break;
+      if (!input.trim()) continue;
 
       try {
         const response = await agent.invoke(
           { messages: [new HumanMessage(input)] },
-          { configurable: { thread_id: threadId } }
+          { configurable: { thread_id: "registro-ventas-agent" } },
         );
-
-        const lastMsg = response.messages[response.messages.length - 1];
-        console.log(`\n 🤖 Agente: ${lastMsg.content}\n`);
-      } catch (err) {
-        console.error("Error:", err);
+        const lastMessage = response.messages.at(-1);
+        const content = lastMessage?.content;
+        console.log(
+          `\nAgente: ${typeof content === "string" ? content : JSON.stringify(content)}\n`,
+        );
+      } catch (error) {
+        console.error(
+          "No se pudo completar la consulta:",
+          error instanceof Error ? error.message : error,
+        );
       }
-
-      askQuestion();
-    });
-  };
-
-  askQuestion();
+    }
+  } finally {
+    readlineInterface.close();
+  }
 }
 
-chat();
+main().catch((error: unknown) => {
+  console.error(
+    "No se pudo iniciar el agente:",
+    error instanceof Error ? error.message : error,
+  );
+  process.exitCode = 1;
+});

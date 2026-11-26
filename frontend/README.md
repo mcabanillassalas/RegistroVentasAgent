@@ -4,7 +4,7 @@
 
 Frontend educativo desarrollado con **TypeScript y React** para interactuar con el programa [Registro de Ventas con PDAs](https://github.com/WayLearnLatam/Registro-Ventas-Solana-PDA) en **Solana Devnet**.
 
-> **Versión de este monorepo:** este frontend conserva el flujo guiado V1 y además integra Inventario V2 (catálogo, stock, ventas por cantidad, ajustes y devoluciones con reposición) y la baja confirmada de clientes sin ventas activas. Está configurado para el Program ID `sACWDFMgns6EKMENP9L9RqnYnY7aANZLU8xHWhawG2k`, desplegado en Devnet. El [README general](../README.md) explica el antes/después; el [flujograma](../flujograma.md) describe el despliegue y la sincronización de IDL y cliente.
+> **Versión de este monorepo:** este frontend conserva el flujo guiado V1 y además integra Inventario V2 (catálogo, stock, ventas por cantidad, ajustes y devoluciones con reposición) y la baja confirmada de clientes sin ventas activas. Está configurado para el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`, desplegado en Devnet. El [README general](../README.md) explica el antes/después; el [flujograma](../flujograma.md) describe el despliegue y la sincronización de IDL y cliente.
 
 Forma parte del **Solana Engineering Track: Advanced** de WayLearn. Aquí conectamos lo aprendido sobre cuentas, instrucciones y PDAs con una aplicación que se utiliza desde el navegador.
 
