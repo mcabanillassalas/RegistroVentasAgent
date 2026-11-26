@@ -37,12 +37,12 @@ No incluye claves, configuraciones privadas ni datos del archivo `.env.taller1`.
 ## 2026-11-25 — Sincronización del despliegue Devnet
 
 - Se confirmó el despliegue del programa en Devnet con el Program ID
-  `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`.
+  `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`.
 - Se corrigió el ID distinto que había quedado en el IDL y el frontend.
 - Se regeneró el cliente Codama y se sincronizaron `frontend/idl.json` y
   `frontend/src/config/programa.json` con la dirección desplegada.
-- Se actualizaron los documentos de despliegue para incluir la transacción y
-  distinguir el programa nuevo del despliegue anterior.
+- Se actualizaron los documentos de despliegue para distinguir el programa nuevo
+  del despliegue anterior y registraron las capturas de build y deploy.
 
 ## Fundación conservada
 

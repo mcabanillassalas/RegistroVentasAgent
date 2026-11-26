@@ -11,7 +11,7 @@ Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los 
 
 El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejecutan en Solana. El frontend se ejecuta en el navegador y se conecta al programa mediante un RPC.
 
-**Estado actual (26 de noviembre de 2026):** el programa está desplegado en **Solana Devnet** con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`; la transacción de despliegue se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del despliegue anterior, Program ID `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3`, corresponde al programa previo y no a este despliegue nuevo. El agente del Taller 1 fue validado contra el registro Devnet y Groq. Las operaciones de inventario V2 aún requieren completar pruebas manuales en Devnet.
+**Estado actual (26 de noviembre de 2026):** el programa está desplegado en **Solana Devnet** con el Program ID `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Las capturas de build y deploy registran el despliegue nuevo. Los IDs anteriores `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` y `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k` corresponden a despliegues previos y no deben reutilizarse.
 
 ## Antes y después de las mejoras
 

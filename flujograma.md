@@ -2,7 +2,7 @@
 
 Esta guía describe cómo desplegar en **Devnet** el backend actualizado de RegistroVentas y conectar el frontend al mismo programa. Incluye Inventario V2 y la instrucción `eliminar_cliente`.
 
-> **Estado (25 de noviembre de 2026):** esta versión independiente se desplegó correctamente en Devnet con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`; la transacción de despliegue se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del 22 de noviembre para el Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) es solo el antecedente del programa previo. Esta guía describe el flujo para futuros despliegues y actualizaciones.
+> **Estado (26 de noviembre de 2026):** esta versión se desplegó correctamente en Devnet con el Program ID `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Las capturas de build y deploy documentan este despliegue. Los IDs anteriores `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` y `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k` pertenecen a despliegues previos.
 
 ## Diagrama de decisiones
 
@@ -33,7 +33,7 @@ flowchart TD
    - `backend/src/lib.rs` conserva V1, agrega Inventario V2 e incluye `eliminar_cliente`.
    - No uses una copia antigua del programa por error.
 2. Compara el Program ID definido por el código local con el programa que quieres actualizar:
-   - El código actual declara `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`.
+   - El código actual declara `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`.
    - El frontend local también está configurado con ese Program ID en `frontend/src/config/programa.json`.
    - Confirma en Solana Explorer/Playground que ese es el programa de **Devnet** que pretendes actualizar. No asumas que una coincidencia local demuestra que el programa ya tiene el código nuevo.
 3. Identifica la **autoridad de actualización** del programa. La wallet que registra ventas desde el frontend puede ser distinta de la wallet que tiene permiso para actualizar el programa.
@@ -127,7 +127,7 @@ npm run configurar:idl -- .\tmp-idl\registro.json
 Si el IDL no contiene una dirección, indícala explícitamente. Sustituye el ejemplo por el Program ID que efectivamente desplegaste:
 
 ```powershell
-npm run configurar:idl -- .\tmp-idl\registro.json --program-id sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k
+npm run configurar:idl -- .\tmp-idl\registro.json --program-id 4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv
 ```
 
 El script respalda el IDL local anterior en `frontend/.aula/respaldos/`, valida el contrato y genera el cliente. Comprueba que:

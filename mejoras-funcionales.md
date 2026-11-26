@@ -1,6 +1,6 @@
 # Mejoras funcionales: control de inventario integrado con ventas
 
-**Estado (25 de noviembre de 2026):** esta versión independiente se desplegó correctamente en Devnet con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`; la transacción de despliegue se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). El ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` y su transacción en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) documentan el programa anterior, no el nuevo despliegue. Los flujos de productos, ventas V2, ajustes, devoluciones y baja aún deben completarse en pruebas manuales de Devnet.
+**Estado (26 de noviembre de 2026):** esta versión se desplegó correctamente en Devnet con el Program ID `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Las capturas de build y deploy documentan este despliegue. Los flujos de productos, ventas V2, ajustes, devoluciones y baja aún deben completarse en pruebas manuales de Devnet.
 
 ## 1. Objetivo
 

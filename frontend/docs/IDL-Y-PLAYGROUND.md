@@ -6,7 +6,7 @@ El IDL describe las instrucciones, sus argumentos y las estructuras de cuentas d
 
 Exporta el IDL del mismo código que se compiló y desplegó en Devnet. El proyecto admite el formato legacy de Anchor y el formato moderno con `address`, discriminadores y definiciones en `types`, siempre que describan el modelo del bootcamp.
 
-El IDL y el cliente local están sincronizados con el Program ID nuevo `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`, y `frontend/src/config/programa.json` no lo marca como referencia. La transacción de despliegue de esta versión se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` quedó en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)) y no verifica el despliegue nuevo. El IDL describe lo que el frontend espera; al cambiar instrucciones, argumentos o cuentas, exporta el IDL del programa actualizado y regenera el cliente. Un IDL local, por sí solo, no demuestra qué binario está desplegado.
+El IDL y el cliente local están sincronizados con el Program ID nuevo `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`, y `frontend/src/config/programa.json` no lo marca como referencia. Las capturas de build y deploy documentan el despliegue actual. El IDL describe lo que el frontend espera; al cambiar instrucciones, argumentos o cuentas, exporta el IDL del programa actualizado y regenera el cliente. Un IDL local, por sí solo, no demuestra qué binario está desplegado.
 
 ## Contrato que espera la app
 

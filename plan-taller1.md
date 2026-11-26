@@ -19,10 +19,9 @@ validadas.
 ## 2. Estado al 26 de noviembre de 2026
 
 - `backend/src/lib.rs` conserva V1, agrega Inventario V2 y declara el nuevo
-  Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`.
-- El despliegue de este programa en Devnet fue confirmado en la transacción
-  `3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH`
-  ([Explorer](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)).
+  Program ID `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`.
+- Las capturas de build y deploy documentan el despliegue de este programa en
+  Devnet.
 - `frontend/idl.json`, `frontend/src/config/programa.json` y el cliente Codama
   generado están sincronizados con ese Program ID.
 - `frontend/src/solana/pdas.ts` deriva las PDAs existentes.
@@ -381,4 +380,3 @@ que no espera compartir cuentas con `RegistroVentas`.
 Estado de ejecución (26 de noviembre de 2026): la lectura directa y la llamada
 del agente a Groq se completaron correctamente con el registro Devnet del
 usuario. La configuración privada permanece local y no se documenta aquí.
-

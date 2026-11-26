@@ -2,7 +2,7 @@
 
 ![banner](./images/banner.jpg)
 
-> **Esta guía pertenece al proyecto backend original del bootcamp.** En este monorepo, el código actualizado está en [`backend/src/lib.rs`](./src/lib.rs): conserva las instrucciones V1 e incorpora Inventario V2 y la baja de clientes. Esta versión independiente se desplegó en Devnet con el Program ID `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`. El ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` pertenece al programa previo. Para publicar cambios futuros, no importes y despliegues sin más el repositorio original enlazado abajo: primero asegúrate de que el repositorio importado contiene la versión actualizada. Consulta el [flujograma de despliegue del proyecto integrado](../flujograma.md) y el [README general](../README.md).
+> **Esta guía pertenece al proyecto backend original del bootcamp.** En este monorepo, el código actualizado está en [`backend/src/lib.rs`](./src/lib.rs): conserva las instrucciones V1 e incorpora Inventario V2 y la baja de clientes. Esta versión independiente se desplegó en Devnet con el Program ID `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Los IDs anteriores pertenecen a despliegues previos y no deben reutilizarse. Para publicar cambios futuros, no importes y despliegues sin más el repositorio original enlazado abajo: primero asegúrate de que el repositorio importado contiene la versión actualizada. Consulta el [flujograma de despliegue del proyecto integrado](../flujograma.md) y el [README general](../README.md).
 
 CRUD básico de un Solana Program desarrollado con Rust y Anchor desde el Solana Playground. 
 
@@ -61,4 +61,3 @@ Como resultado se mostrará la siguiente información:
 * En azul: la cantidad de tokens en la wallet
 
 > ℹ️ ¿Quieres ver el ejemplo de un "Hola Mundo" en Solana?. Da clic aquí: 👉 [Ver Ejemplo](https://github.com/WayLearnLatam/Solana-starter-kit/tree/1fc6349ba63375a3fe223d8d56911bc64765459b/build-deploy)
-

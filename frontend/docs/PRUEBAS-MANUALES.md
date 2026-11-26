@@ -1,6 +1,6 @@
 # Pruebas manuales antes de clase
 
-Se realizan en Devnet, con una wallet de práctica y el Program ID actual `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`. La transacción de despliegue de esta versión se confirmó en el slot `526256835` ([transacción](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)). La transacción del Program ID anterior `4dJoKhvY2XC6WpHv8b7RCHKsTfUpGpELiDjAjf4grcE3` se confirmó en el slot `525118972` ([transacción](https://explorer.solana.com/tx/4T8A3SgWeFvtgYSgQZaRha2BpJj7zDHhhdYt7JqL7gmdWAhigaMc9yV9ooPj1WiKGqNhvr8HxYrAMNzsaqabwNe2?cluster=devnet)); no corresponde al despliegue actual. Los casos de esta lista deben ejecutarse y registrarse manualmente. Las pruebas unitarias no sustituyen las pruebas en Devnet.
+Se realizan en Devnet, con una wallet de práctica y el Program ID actual `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Las capturas de build y deploy documentan el despliegue actual. Los Program IDs anteriores no corresponden a esta versión. Los casos de esta lista deben ejecutarse y registrarse manualmente. Las pruebas unitarias no sustituyen las pruebas en Devnet.
 
 ## Preparación
 

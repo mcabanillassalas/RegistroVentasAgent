@@ -40,9 +40,8 @@ actualizaran ni se reutilizaran como si fueran el despliegue de este repositorio
 Resultado de la ejecucion:
 
 - Se desplego en Devnet el Program ID nuevo
-  `sACWDfMgns6EKMENP9L9RqnYnY7aANZLU8xHWhaWG2k`. La transaccion de despliegue
-  se confirmo en el slot `526256835`
-  ([transaccion](https://explorer.solana.com/tx/3oHim4Ez7dc8MsWkcxJENifJXDhKyHutbs5UvGqkHKp87ybsDsRFdS9muL9QSgoTjWhHmjAQZ99hMqSNZyhW6wXH?cluster=devnet)).
+  `4WhJ2JE9sAWfhojrb4UYTA72FuEAPoJXkLeoT3mAiArv`. Las capturas de build y
+  deploy documentan el resultado del despliegue.
 - `backend/src/lib.rs`, el IDL local, la configuracion frontend y el cliente
   Codama se sincronizaron con el nuevo Program ID.
 - La transaccion del ID anterior documentada en los README pertenece al
