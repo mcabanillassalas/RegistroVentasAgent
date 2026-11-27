@@ -1,8 +1,7 @@
 # RegistroVentasAgent
 
-Este repositorio corresponde al Taller 1 y se llama `RegistroVentasAgent`.
-El remoto `origin` apunta a
-`https://github.com/mcabanillassalas/RegistroVentasAgent.git`.
+Este repositorio corresponde al Taller 1, el proyecto es `RegistroVentasAgent`.
+URL: `https://github.com/mcabanillassalas/RegistroVentasAgent.git`.
 
 Proyecto educativo de registro de ventas en Solana. Este repositorio reúne los dos proyectos originales del bootcamp:
 
@@ -18,6 +17,10 @@ El backend no es un servidor HTTP: una vez desplegado, sus instrucciones se ejec
 **Proyecto de partida:** el registro guiado administra negocios, clientes y ventas V1: crea registros y clientes, registra una venta por SKU activo y cliente, permite corregir el importe y devolver la venta. La versión original utilizada como punto de partida no implementaba la baja de clientes; esta función se añadió a este proyecto.
 
 **Estado actual y mejoras propias:** se conserva ese flujo V1 y se agregaron dos mejoras funcionales en backend y frontend: **Inventario V2**, con productos, existencias, ventas por cantidad, ajustes y devoluciones con reposición; y **baja de clientes**, condicionada a que no existan ventas V1 ni V2 activas. La instrucción V2 se encuentra en el programa actualizado de Devnet y se reportó una inicialización exitosa. Los demás recorridos deben validarse manualmente antes de considerarlos plenamente probados.
+
+## Objetivo del proyecto RegistroVentasAgent (Taller 1)
+
+Integrar un agente de IA con las cuentas de un programa de Solana, utilizando una herramienta de lectura cuyo resultado podamos comprobar con los datos de la aplicación.
 
 ## Estructura
 
