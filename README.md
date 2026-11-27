@@ -29,11 +29,9 @@ RegistroVentasAgent/
 ├── .gitignore
 ├── mejoras-funcionales.md # Diseño y límites de las mejoras funcionales
 ├── flujograma.md # Pasos de despliegue del backend y conexión del frontend
-├── plan-inicial.md # Historial y despliegue del proyecto
-├── plan-taller1.md # Integración del agente del Taller 1
+├── evidencias_taller1/ # capturas y registro de validación del Taller 1
 ├── README.md
-├── CHANGELOG.md # Historial de cambios del proyecto
-└── evidencias_taller1/ # capturas y registro de validación del Taller 1
+└── CHANGELOG.md # Historial de cambios del proyecto
 ```
 
 ## Evidencias
