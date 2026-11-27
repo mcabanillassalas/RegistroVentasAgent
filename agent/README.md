@@ -92,6 +92,23 @@ inicia la conversación; escribe `exit` para salir. Ejemplos:
 - ¿Qué cliente tiene más compras?
 - ¿Cuál es la dirección del registro?
 
+## Resultado de validación registrado
+
+El 26 de noviembre de 2026 se obtuvo una lectura válida del registro
+`Cafe WayLearn D1`:
+
+- `existe: true`
+- 2 clientes registrados
+- 2 ventas V1 activas
+- monto total de 100 unidades
+- Bodega Don Pepe y Ana Torroja empatan con una compra de 50 unidades cada una
+
+En esta prueba, `npm run typecheck` pasó sin errores y `npm test` completó
+7 pruebas correctamente. `npm start` respondió correctamente con Groq a las
+preguntas sobre cantidad de clientes, ventas activas y monto total. La evidencia
+completa está en
+[evidencias_taller1/agente-interaccion.md](../evidencias_taller1/agente-interaccion.md).
+
 ## Alcance y seguridad
 
 - Verifica que el RPC sea Devnet y que el programa configurado esté desplegado.

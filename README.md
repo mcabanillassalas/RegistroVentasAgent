@@ -33,14 +33,15 @@ RegistroVentasAgent/
 ├── plan-taller1.md # Integración del agente del Taller 1
 ├── README.md
 ├── CHANGELOG.md # Historial de cambios del proyecto
-└── evidencia/ # carpeta de capturas de evidencia
+└── evidencias_taller1/ # capturas y registro de validación del Taller 1
 ```
 
 ## Evidencias
 
-En la carpeta **evidencia** se puede apreciar las capturas de las diversas fases
-de la implementacion build, deploy, upgrade. Asi como tambien evidencias de las 
-nuevas funcionalidades y registro de las transacciones en Solana Explorer.
+En la carpeta **evidencias_taller1** se conservan las capturas de build, deploy,
+registro y conversación del agente, además del archivo
+[agente-interaccion.md](./evidencias_taller1/agente-interaccion.md) con la salida
+de las pruebas y de las consultas realizadas.
 
 ## Mejoras funcionales: inventario V2 y baja de clientes
 
@@ -130,9 +131,24 @@ npm start
 La prueba directa requiere un registro ya creado en el despliegue nuevo y
 valores exactos de `NEGOCIO` y `OWNER`. El agente carga solo `.env.taller1`;
 no carga el `.env` heredado ni requiere una clave privada. `LLM_MODE=online`
-permite elegir OpenAI o Groq con `LLM_PROVIDER`; `LLM_MODE=local` usa LM Studio.
-En modo en línea las consultas y los resultados de lectura se envían al
-proveedor elegido.
+permite elegir OpenAI o Groq con `LLM_PROVIDER`. LM Studio está disponible como
+alternativa técnica del taller, pero no se utiliza en esta entrega; el proveedor
+probado es Groq. En modo en línea las consultas y los resultados de lectura se
+envían al proveedor elegido.
+
+Validación registrada el 26 de noviembre de 2026:
+
+- `npm run typecheck`: pasó sin errores.
+- `npm test`: 7 pruebas pasaron.
+- `npm run prueba`: encontró `Cafe WayLearn D1`, 2 clientes y 2 ventas V1
+  activas por un monto total de 100 unidades.
+- `npm start` con Groq respondió desde la herramienta de lectura y registró
+  el empate entre Bodega Don Pepe y Ana Torroja.
+- La salida completa está en
+  [evidencias_taller1/agente-interaccion.md](./evidencias_taller1/agente-interaccion.md).
+- El estado global de evidencias completadas y pendientes, incluidos los pasos
+  reproducibles para las pruebas restantes, está en
+  [evidencias.md](./evidencias.md).
 
 El backend está preparado para Solana Playground. `backend/src/lib.rs` conserva las instrucciones V1 y contiene la implementación V2. `backend/Cargo.toml` permite ejecutar pruebas locales, pero este directorio no es un workspace Anchor completo. El archivo `backend/tests/anchor.test.ts` sigue siendo una plantilla de clase que invoca `initialize`, instrucción que no pertenece a RegistroVentas; no lo uses como prueba de las operaciones V2.
 

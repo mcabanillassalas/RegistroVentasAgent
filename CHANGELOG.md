@@ -33,6 +33,19 @@ No incluye claves, configuraciones privadas ni datos del archivo `.env.taller1`.
   con tool calling, tras el retiro de `llama-3.3-70b-versatile` para cuentas
   Developer.
 - Se reemplazó el ejemplo de entorno por valores de muestra y placeholders.
+- Se restauraron las dependencias locales de `agent/` con `npm install`.
+- `npm run typecheck` pasó sin errores.
+- `npm test` pasó las 7 pruebas del agente.
+- `npm run prueba` encontró el registro `Cafe WayLearn D1`, con 2 clientes y
+  2 ventas V1 activas por un monto total de 100 unidades.
+- Se inició `npm start` con Groq y se verificaron respuestas sobre cantidad de
+  clientes, ventas activas y monto total.
+- La consulta registró un empate: Bodega Don Pepe y Ana Torroja tienen una venta
+  activa de 50 unidades cada una.
+- Se conservó la evidencia de la interacción en
+  `evidencias_taller1/agente-interaccion.md`.
+- Se creó `evidencias.md` para separar las comprobaciones completadas de las
+  evidencias pendientes y documentar los pasos seguros para obtenerlas.
 
 ## 2026-11-25 — Sincronización del despliegue Devnet
 
@@ -58,5 +71,7 @@ No incluye claves, configuraciones privadas ni datos del archivo `.env.taller1`.
 - Frontend: `npm run verificar` — typecheck, 12 pruebas, comprobación IDL y build
   completados correctamente.
 - Agente: `npm run typecheck` y `npm test` — 7 pruebas completadas correctamente.
-- Lectura Devnet: un cliente y una venta V1 activa por 50 unidades.
-- Modelo: Groq respondió usando el resumen consultado por la herramienta.
+- Lectura Devnet: 2 clientes y 2 ventas V1 activas, una por cada cliente,
+  con un monto total de 100 unidades.
+- Modelo: Groq respondió usando el resumen consultado por la herramienta
+  `REGISTRO_RESUMEN_NEGOCIO`.
