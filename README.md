@@ -26,10 +26,11 @@ RegistroVentasAgent/
 ├── backend/   # Programa Anchor y cliente de Solana Playground
 ├── frontend/  # Aplicación React/Vite, IDL y cliente TypeScript
 ├── agent/     # Agente de consulta Devnet, solo lectura (Taller 1)
+├── evidencias_taller1/ # capturas y registro de validación del Taller 1
+├── evidencias_taller1.md  # registro de evidencias del Taller 1
 ├── .gitignore
 ├── mejoras-funcionales.md # Diseño y límites de las mejoras funcionales
 ├── flujograma.md # Pasos de despliegue del backend y conexión del frontend
-├── evidencias_taller1/ # capturas y registro de validación del Taller 1
 ├── README.md
 └── CHANGELOG.md # Historial de cambios del proyecto
 ```
